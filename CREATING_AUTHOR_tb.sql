@@ -1,0 +1,56 @@
+
+
+--- Creating the database
+CREATE DATABASE Team4FinalPrj;
+go
+
+--- Using the database
+Use Team4FinalPrj;
+GO
+
+--- Creating Author table - 01
+
+CREATE TABLE AUTHOR (
+  authorId INT NOT NULL PRIMARY KEY , 
+  author_firstName  varchar(40) NOT NULL,
+  author_lastName varchar(40)  NOT NULL
+)
+Go
+
+---  DROPPING TABLE
+---DROP TABLE AUTHOR;
+GO
+
+--- SELECTING THE TABLE
+SELECT * FROM dbo.AUTHOR;
+GO
+
+
+--- INSERTING TABLE TO AUTHOR TABLE
+
+Insert dbo.AUTHOR values(1,'Ashley','Poston' );
+INSERT DBO.AUTHOR VALUES(2, 'Danielle','Steel');
+INSERT DBO.AUTHOR VALUES(3, 'Debbie','Macomber' );
+INSERT DBO.AUTHOR VALUES(4, 'ANIKA','SCOTT');
+INSERT DBO.AUTHOR VALUES(5, 'JANE','KUO');
+INSERT DBO.AUTHOR VALUES(6, 'QuvenzhanE','WALLIS');
+INSERT DBO.AUTHOR VALUES(7, 'JACK','CARR');
+INSERT DBO.AUTHOR VALUES(8, 'RUTH','DRUART');
+INSERT DBO.AUTHOR VALUES(9, 'STEVEN','BRUST');
+INSERT DBO.AUTHOR VALUES(10, 'FRAN','WILDE');
+INSERT DBO.AUTHOR VALUES(11, 'DANIEL','M.FORD');
+INSERT DBO.AUTHOR VALUES(12, 'KATE','ELLIOTT');
+iNSERT DBO.AUTHOR VALUES(13, 'CHRIS', 'BRADFORD');
+iNSERT DBO.AUTHOR VALUES(14, 'Serena', 'Valentino');
+iNSERT DBO.AUTHOR VALUES(15, 'Domee', 'Shi');
+iNSERT DBO.AUTHOR VALUES(16, 'Shawn', 'Eagel');
+iNSERT DBO.AUTHOR VALUES(17, 'Michael', 'Leviton');
+iNSERT DBO.AUTHOR VALUES(18, 'Ali', 'Bahrampour');
+iNSERT DBO.AUTHOR VALUES(19, 'Kate', 'Berube');
+iNSERT DBO.AUTHOR VALUES(20, 'Mona', 'Lisa');
+
+
+
+
+
+
