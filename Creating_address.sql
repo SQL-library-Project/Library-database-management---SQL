@@ -38,6 +38,9 @@ Insert dbo.Address values(9,10003, '33 East 17th Street', 'New York', 'NY', 'USA
 ---  abrams
 Insert dbo.Address values(10,10007, '195 Broadway ', 'New York', 'NY', 'USA');
 
+
+Insert dbo.address values(21, 94133, '12354 presidio street', 'san Francisco', 'california', 'USA')
+
 go
 
 ---  DROPPING TABLE
