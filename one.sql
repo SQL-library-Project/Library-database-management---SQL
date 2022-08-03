@@ -115,8 +115,26 @@ create table membershipEnrollment (
 	expiryDate as dateadd(year, 1, enrollmentDate)
 )
 go
+------------------------ Creating staff designation table -------------------------------------------------
+go
+create table StaffDesignation (
+	StaffDesignationId int not null primary key identity,
+	Designation varchar(40)  not null,
+	salary money
+)
+go
+
+------------------------ Creating staff  table -------------------------------------------------
+go
+CREATE TABLE staff(
+personId int references dbo.person(personId) ,
+ StaffDesignationId int references dbo.StaffDesignation(StaffDesignationId),
+primary key (personId, StaffDesignationId)
+)
+GO
+
 ------------------------------------------------- Table level constraints -------------------------------------------------------------------------------
------------------------------ Table level constraint : BorrowBook Table -------------------------
+----------------------------- Table level constraint : BorrowBook Table : user needs to be a member -------------------------
 create function validateMember(@personId int)
 Returns smallint
 AS
@@ -170,7 +188,7 @@ return
 end
 if(@count > 0)
 begin
-print 'Book is not availble to borrow Now !!!'
+print 'Book is not availble to borrow'
 return
 end
 end
@@ -187,30 +205,25 @@ begin
 	declare @startTime datetime
 	declare @endTime datetime
 	declare @count int = 0
-
 	select @spaceId = s.spaceId, @startTime = i.startTime, @endTime = i.endTime
 	from StudySpace s
 	join inserted i
 	on i.spaceID = s.SpaceID
-
 	if(@spaceId is null)
 	begin
 		print 'Invalid Space Id. Statement Terminated'
 		return
 	end
-
 	select @count = count(bookingId)
 	from spaceBooking
 	where spaceId = @spaceId and ((startTime <= @startTime and endTime >= @startTime) 
 	or (startTime <= @endTime and endTime >= @endTime)
 	or (startTime <= @startTime and endTime >= @endTime))
-
 	if(@count > 0)
 	begin
 		print 'Booking timming overlap. Statement terminated'
 		return
 	end
-
 	insert into SpaceBooking(personId, spaceId,bookingId, startTime, duration)
 	select personId, spaceId, bookingId, startTime, duration
 	from inserted
@@ -818,6 +831,31 @@ values(123, 1, '2022-08-3 7:30', 3, 25)
 insert into SpaceBooking(bookingId, duration, startTime, PersonId, spaceId)
 values(125, 2, '2022-08-3 7:30', 12, 26)
 go
+
+------ Inserting data to staff designation ------------------------------------------------------
+Insert dbo.StaffDesignation(Designation,salary) values('Manger','4000');
+Insert dbo.StaffDesignation values('InventoryManger','3000');
+Insert dbo.StaffDesignation values('Receptionist','1000');
+Insert dbo.StaffDesignation values('Librarian','500');
+Insert dbo.StaffDesignation values('Asst.Manger','2000');
+
+---------------------- Insrting data to staff table ----------------------------------------------
+Insert dbo.Staff(personId,StaffDesignationId) values(35,1);
+Insert dbo.Staff(personId,StaffDesignationId) values(36,2);
+Insert dbo.Staff(personId,StaffDesignationId) values(37,3);
+Insert dbo.Staff(personId,StaffDesignationId) values(38,4);
+Insert dbo.Staff(personId,StaffDesignationId) values(39,5);
+Insert dbo.Staff(personId,StaffDesignationId) values(40,1);
+Insert dbo.Staff(personId,StaffDesignationId) values(26,1);
+Insert dbo.Staff(personId,StaffDesignationId) values(27,2);
+Insert dbo.Staff(personId,StaffDesignationId) values(28,3);
+Insert dbo.Staff(personId,StaffDesignationId) values(29,3);
+Insert dbo.Staff(personId,StaffDesignationId) values(30,4);
+Insert dbo.Staff(personId,StaffDesignationId) values(31,4);
+Insert dbo.Staff(personId,StaffDesignationId) values(32,2);
+Insert dbo.Staff(personId,StaffDesignationId) values(33,4);
+Insert dbo.Staff(personId,StaffDesignationId) values(34,5);
+
 --------------------------------------------- Coloumn level Functions -------------------------------------------------------------------------------------
 --------- Gives the count of total spaces booked based on study space category
 
@@ -883,3 +921,4 @@ go
 select * from vw_Top3Books
 go
 --------------------------------------------------------------------------------
+
